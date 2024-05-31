@@ -18,8 +18,8 @@ class Agent:
         self.epsilon = 0  # randomness
         self.gamma = 0.9  # discount rate
         self.memory = deque(maxlen=MAX_MEMORY)
-        self.model = Linear_QNet(11, 256, 3).to(device=self.device)
-        self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
+        self.model = Linear_QNet(11, 256, 3, device=self.device).to(device=self.device)
+        self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma, device=self.device)
 
     def get_state(self, game):
         head = game.snake[0]

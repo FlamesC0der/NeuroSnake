@@ -6,8 +6,9 @@ import os
 
 
 class Linear_QNet(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size):
+    def __init__(self, input_size, hidden_size, output_size, device):
         super().__init__()
+        self.device = device
         self.linear1 = nn.Linear(input_size, hidden_size, device=self.device)
         self.linear2 = nn.Linear(hidden_size, output_size, device=self.device)
 
@@ -26,8 +27,8 @@ class Linear_QNet(nn.Module):
 
 
 class QTrainer:
-    def __init__(self, model, lr, gamma):
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    def __init__(self, model, lr, gamma, device):
+        self.device = device
         self.lr = lr
         self.gamma = gamma
         self.model = model
