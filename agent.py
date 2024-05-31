@@ -13,12 +13,12 @@ LR = 0.001
 
 class Agent:
     def __init__(self):
-        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self.n_games = 0
         self.epsilon = 0  # randomness
         self.gamma = 0.9  # discount rate
         self.memory = deque(maxlen=MAX_MEMORY)
-        self.model = Linear_QNet(11, 256, 3).to(device=device)
+        self.model = Linear_QNet(11, 256, 3).to(device=self.device)
         self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
 
     def get_state(self, game):
@@ -91,7 +91,7 @@ class Agent:
             move = random.randint(0, 2)
             final_move[move] = 1
         else:
-            state0 = torch.tensor(state, dtype=torch.float)
+            state0 = torch.tensor(state, dtype=torch.float, device=self.device)
             prediction = self.model(state0)
             move = torch.argmax(prediction).item()
             final_move[move] = 1
