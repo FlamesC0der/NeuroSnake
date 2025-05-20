@@ -33,6 +33,8 @@ class SnakeGameAI:
     def __init__(self, w=640, h=480):
         self.w = w
         self.h = h
+        self.generation = 1
+        self.record = 0
         # init display
         self.display = pygame.display.set_mode((self.w, self.h))
         pygame.display.set_caption('Snake')
@@ -114,9 +116,18 @@ class SnakeGameAI:
 
         pygame.draw.rect(self.display, RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
 
-        text = font.render("Score: " + str(self.score), True, WHITE)
+        text = font.render("Gen: " + str(self.generation), True, WHITE)
+        text2 = font.render("Record: " + str(self.record), True, WHITE)
+        text3 = font.render("Score: " + str(self.score), True, WHITE)
+
         self.display.blit(text, [0, 0])
+        self.display.blit(text2, [0, 30])
+        self.display.blit(text3, [self.w - 130, 0])
         pygame.display.flip()
+
+    def update_data(self, record):
+        self.generation += 1
+        self.record = record
 
     def _move(self, action):
         # [straight, right, left]
